@@ -2,22 +2,22 @@ cmake_minimum_required(VERSION 3.0.2)
 project(ar_track_alvar)
 
 find_package(catkin REQUIRED COMPONENTS
-        ${PROJECT_NAME}_msgs
-        cmake_modules
-        cv_bridge
-        dynamic_reconfigure
-        geometry_msgs
-        image_transport
-        message_generation
-        pcl_conversions
-        pcl_ros
-        resource_retriever
-        roscpp
-        sensor_msgs
-        std_msgs
-        tf
-        tf2
-        visualization_msgs)
+  ${PROJECT_NAME}_msgs
+  cmake_modules
+  cv_bridge
+  dynamic_reconfigure
+  geometry_msgs
+  image_transport
+  message_generation
+  pcl_conversions
+  pcl_ros
+  resource_retriever
+  roscpp
+  sensor_msgs
+  std_msgs
+  tf
+  tf2
+  visualization_msgs)
 
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -30,60 +30,59 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
-        ${PROJECT_NAME}_msgs
-        cv_bridge
-        dynamic_reconfigure
-        geometry_msgs
-        image_transport
-        message_runtime
-        pcl_conversions
-        pcl_ros
-        resource_retriever
-        roscpp
-        sensor_msgs
-        std_msgs
-        tf
-        tf2
-        visualization_msgs
+  ${PROJECT_NAME}_msgs
+  cv_bridge
+  dynamic_reconfigure
+  geometry_msgs
+  image_transport
+  message_runtime
+  pcl_conversions
+  pcl_ros
+  resource_retriever
+  roscpp
+  sensor_msgs
+  std_msgs
+  tf
+  tf2
+  visualization_msgs
 )
 
 include_directories(include
-                    ${catkin_INCLUDE_DIRS}
-                    ${OpenCV_INCLUDE_DIRS}
-                    ${TinyXML_INCLUDE_DIRS}
-
+  ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${TinyXML_INCLUDE_DIRS}
 )
 
 add_library(${PROJECT_NAME}
-    src/Bitset.cpp
-    src/Camera.cpp
-    src/CaptureDevice.cpp
-    src/CaptureFactory.cpp
-    src/CaptureFactory_unix.cpp
-    src/ConnectedComponents.cpp
-    src/CvTestbed.cpp
-    src/DirectoryIterator.cpp
-    src/DirectoryIterator_unix.cpp
-    src/Draw.cpp
-    src/FileFormatUtils.cpp
-    src/Filter.cpp
-    src/Kalman.cpp
-    src/Line.cpp
-    src/Marker.cpp
-    src/MarkerDetector.cpp
-    src/MultiMarker.cpp
-    src/MultiMarkerBundle.cpp
-    src/MultiMarkerInitializer.cpp
-    src/Mutex.cpp
-    src/Mutex_unix.cpp
-    src/Optimization.cpp
-    src/Plugin.cpp
-    src/Plugin_unix.cpp
-    src/Pose.cpp
-    src/Rotation.cpp
-    src/Threads.cpp
-    src/Threads_unix.cpp
-    src/Util.cpp
+  src/Bitset.cpp
+  src/Camera.cpp
+  src/CaptureDevice.cpp
+  src/CaptureFactory.cpp
+  src/CaptureFactory_unix.cpp
+  src/ConnectedComponents.cpp
+  src/CvTestbed.cpp
+  src/DirectoryIterator.cpp
+  src/DirectoryIterator_unix.cpp
+  src/Draw.cpp
+  src/FileFormatUtils.cpp
+  src/Filter.cpp
+  src/Kalman.cpp
+  src/Line.cpp
+  src/Marker.cpp
+  src/MarkerDetector.cpp
+  src/MultiMarker.cpp
+  src/MultiMarkerBundle.cpp
+  src/MultiMarkerInitializer.cpp
+  src/Mutex.cpp
+  src/Mutex_unix.cpp
+  src/Optimization.cpp
+  src/Plugin.cpp
+  src/Plugin_unix.cpp
+  src/Pose.cpp
+  src/Rotation.cpp
+  src/Threads.cpp
+  src/Threads_unix.cpp
+  src/Util.cpp
 )
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${TinyXML_LIBRARIES} ${catkin_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -105,7 +104,7 @@ add_executable(individualMarkersNoKinect nodes/IndividualMarkersNoKinect.cpp)
 target_link_libraries(individualMarkersNoKinect ${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(individualMarkersNoKinect ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-#add
+# add
 add_executable(individualMarkersNoKinect_g nodes/IndividualMarkersNoKinect_g.cpp)
 target_link_libraries(individualMarkersNoKinect_g ${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(individualMarkersNoKinect_g ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -113,6 +112,14 @@ add_dependencies(individualMarkersNoKinect_g ${${PROJECT_NAME}_EXPORTED_TARGETS}
 add_executable(trainMarkerBundle nodes/TrainMarkerBundle.cpp)
 target_link_libraries(trainMarkerBundle ${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(trainMarkerBundle ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(individualMarkersNoKinect_ns nodes/IndividualMarkersNoKinect_ns.cpp)
+target_link_libraries(individualMarkersNoKinect_ns ${PROJECT_NAME} ${catkin_LIBRARIES})
+add_dependencies(individualMarkersNoKinect_ns ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(individualMarkersNoKinect_g_ns nodes/IndividualMarkersNoKinect_g_ns.cpp)
+target_link_libraries(individualMarkersNoKinect_g_ns ${PROJECT_NAME} ${catkin_LIBRARIES})
+add_dependencies(individualMarkersNoKinect_g_ns ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(findMarkerBundles nodes/FindMarkerBundles.cpp)
 target_link_libraries(findMarkerBundles ${PROJECT_NAME} kinect_filtering medianFilter ${catkin_LIBRARIES})
@@ -145,21 +152,22 @@ if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
 
   file(GLOB LAUNCH_FILES launch/*.launch test/*.test)
+
   foreach(LAUNCH_FILE ${LAUNCH_FILES})
     roslaunch_add_file_check(${LAUNCH_FILE} USE_TEST_DEPENDENCIES)
   endforeach()
 
-  #catkin_download_test_data(
-  #  ${PROJECT_NAME}_4markers_tork.bag
-  #  http://download.ros.org/data/ar_track_alvar/ar_track_alvar_4markers_tork_2017-02-08-11-21-14.bag
-  #  # Workaround the issue http://answers.ros.org/question/253787/accessing-data-downloaded-via-catkin_download_test_data/
-  #  # by downloading into source folder.
-  #  #DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/test
-  #  DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/test
-  #  MD5 627aa0316bbfe4334e06023d7c2b4087
+  # catkin_download_test_data(
+  # ${PROJECT_NAME}_4markers_tork.bag
+  # http://download.ros.org/data/ar_track_alvar/ar_track_alvar_4markers_tork_2017-02-08-11-21-14.bag
+  # # Workaround the issue http://answers.ros.org/question/253787/accessing-data-downloaded-via-catkin_download_test_data/
+  # # by downloading into source folder.
+  # #DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/test
+  # DESTINATION ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/test
+  # MD5 627aa0316bbfe4334e06023d7c2b4087
   # )
-  #add_rostest(test/marker_arg_config-basic.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
-  #add_rostest(test/marker_arg_config-full.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
-  #add_rostest(test/marker_param_config-basic.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
-  #add_rostest(test/marker_param_config-full.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
+  # add_rostest(test/marker_arg_config-basic.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
+  # add_rostest(test/marker_arg_config-full.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
+  # add_rostest(test/marker_param_config-basic.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
+  # add_rostest(test/marker_param_config-full.test DEPENDENCIES ${PROJECT_NAME}_4markers_tork.bag)
 endif()
